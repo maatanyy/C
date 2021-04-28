@@ -27,7 +27,7 @@ int main(void) {
         CountWords(buffer); // CountWordf함수로 입력받은 문자열 전달
    
     PrintWords(); // 단어출력
-    RemoveAll();
+
 
     return 0;   //종료
 }
@@ -39,8 +39,9 @@ int CountWords(string input) {   //문자열 없으면 추가 하고 있으면 c
             words[i]->count += 1;   //기존의 words[i]->count를 하나 증가 시킨다.
             return 0;   //종료
         }
-    }  
-                                  // 이 경우는 위의 반복문을 나온 경우 즉 기존에 vector에 입력받은 string이 없을 경우임
+    }
+
+    // 이 경우는 위의 반복문을 나온 경우 즉 기존에 vector에 입력받은 string이 없을 경우임
     WORD* pword = new WORD;    // WORD형 포인터 pword를 동적할당
     words.push_back(pword);   // 벡터 words[]에 push_back을 이용해서 동적할당한 포인터를 추가해줌
     pword->str = input;      // 새로 추가한 pword->str에 입력받은 input을 넣어줌
@@ -51,14 +52,16 @@ int CountWords(string input) {   //문자열 없으면 추가 하고 있으면 c
 void PrintWords() {   //words 안에 있는 정보를 출력해주는 함수
     int size = words.size();  //words.size()를 통해 size의 크기를 알아내서 size에 저장해줌
     cout << " =====\n";
-    for (int i = 0; i < size; i++) {   //size만큼 반복문을 돌면서
+    for (int i = 0; i < size; i++) {   //size 만큼 반복문을 돌면서
         cout <<words[i]->str<<" : "<<words[i]->count<<"\n";   // words[i]->str 와 words[i]->count 출력, 즉 들어있는 문자열과 사용빈도 출력
     }
     cout << " =====\n";
-
 }
 
 void RemoveAll() {
+    int size = words.size();
 
-
+    for (int i = 0; i < size; i++) {
+       delete words.back();
+    }
 }
