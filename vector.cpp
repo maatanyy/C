@@ -55,13 +55,20 @@ void PrintWords() {   //words 안에 있는 정보를 출력해주는 함수
     for (int i = 0; i < size; i++) {   //size 만큼 반복문을 돌면서
         cout <<words[i]->str<<" : "<<words[i]->count<<"\n";   // words[i]->str 와 words[i]->count 출력, 즉 들어있는 문자열과 사용빈도 출력
     }
-    cout << " =====\n";
+    cout << " =====\n"; 
 }
 
-void RemoveAll() {
-    int size = words.size();
-
+void RemoveAll() {    //동적할당 받은 메모리 해제하는 함수
+    int size = words.size();  //words.size()를 통해 size의 크기를 알아내서 size에 저장해줌
+/*
     for (int i = 0; i < size; i++) {
        delete words.back();
     }
+    */
+ 
+   for(int i=0;i<size;i++)    //size 만큼 반복문을 돌면서
+        {
+              WORD* temp = words[i];   //WORD* temp = Words[i]를 가르킴
+               delete temp;   //temp를 메모리 해제해줌
+        }
 }
