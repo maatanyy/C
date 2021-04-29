@@ -5,8 +5,15 @@ using namespace std;  //std namespace 사용
 /**************************************************/
 /*       HW#7 : vector 클래스 사용해보기  */
 /*  작성자 : 노민성   날짜 : 2021년 4월 28일  */
-/*                                                       */
-/* 문제 정의 :     함수를 사용하여 성적처리 프로그램 만들기*/
+/*                                                     
+*/
+/* 문제 정의 :    vector 클래스 사용해보기 
+       여러 개의 단어와 각 단어의 사용빈도수를 보관하기 위해서
+       vector클래스를 사용함
+       vector 클래스를 사용해서 words를 선언하고
+       WORD*를 인덱스에 가지고 있음
+       기존에 없던 단어가 입력되면 동적할당을 통해 늘리기 때문에
+       마지막에 함수를 호출해서 동적할당 받은 메모리를 해제해준다*/
 /*                  - - - - - - -*/
 
 int CountWords(string);  //입력받은 단어 count하는 함수
@@ -20,12 +27,12 @@ struct WORD {   //WORD 구조체 선언
 
 vector <WORD*> words;   //WORD*를 배열의 원소로 가지는 Vector words선언
 
-int main(void) {  
+int main(void) {
     cout << "문자열 입력. 종료: Ctrl+Z\n";    //문자열을 입력 받고 CTRL+Z입력시 종료
     string buffer;   //string 형 buffer 선언
     while (cin >> buffer)   //문자열이 들어올때까지 반복
         CountWords(buffer); // CountWordf함수로 입력받은 문자열 전달
-   
+
     PrintWords(); // 단어출력
 
 
@@ -53,22 +60,22 @@ void PrintWords() {   //words 안에 있는 정보를 출력해주는 함수
     int size = words.size();  //words.size()를 통해 size의 크기를 알아내서 size에 저장해줌
     cout << " =====\n";
     for (int i = 0; i < size; i++) {   //size 만큼 반복문을 돌면서
-        cout <<words[i]->str<<" : "<<words[i]->count<<"\n";   // words[i]->str 와 words[i]->count 출력, 즉 들어있는 문자열과 사용빈도 출력
+        cout << words[i]->str << " : " << words[i]->count << "\n";   // words[i]->str 와 words[i]->count 출력, 즉 들어있는 문자열과 사용빈도 출력
     }
-    cout << " =====\n"; 
+    cout << " =====\n";
 }
 
-void RemoveAll() {    //동적할당 받은 메모리 해제하는 함수
-    int size = words.size();  //words.size()를 통해 size의 크기를 알아내서 size에 저장해줌
-/*
-    for (int i = 0; i < size; i++) {
-       delete words.back();
-    }
-    */
- 
-   for(int i=0;i<size;i++)    //size 만큼 반복문을 돌면서
-        {
-              WORD* temp = words[i];   //WORD* temp = Words[i]를 가르킴
-               delete temp;   //temp를 메모리 해제해줌
+void RemoveAll() {
+    int size = words.size();      //words.size()를 통해 size의 크기를 알아내서 size에 저장해줌
+    /*
+        for (int i = 0; i < size; i++) {
+           delete words.back();
         }
+        */
+
+    for (int i = 0; i < size; i++)    //size만큼 반복문을 돌면서
+    {
+        WORD* temp = words[i];   //WORD* temp가 words[i]를 가르키고
+        delete temp;           //temp 메모리 해제
+    }
 }
