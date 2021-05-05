@@ -20,6 +20,10 @@ public:
 	void PrintTitle();
 	void PrintData();
 	void CalcGPA(string,int);
+	string GetName();
+	int GetHakjum();
+	string GetGrade();
+	float GetGPA();
 };
 
 void Subject::Initialize() {
@@ -62,15 +66,15 @@ void Subject::InputData() {
 }
 
 void Subject::PrintTitle() {
-	cout << "------------------------------------------\n";
-	cout << "    교과목명    학점수    등급    평점    \n";
-	cout << "------------------------------------------\n";
+	cout << "-----------------------------------------------------\n";
+	cout << "    교과목명     학점수     등급     평점    \n";
+	cout << "-----------------------------------------------------\n";
 }
 
 void Subject::PrintData() {
-	cout << "------------------------------------------\n";
-	cout << "    " <<this->m_name<<"       "<<this->m_hakjum<< "       " <<this->m_grade << "       "<<this->m_GPA<<"\n";
-	cout << "------------------------------------------\n";
+	cout << "-----------------------------------------------------\n";
+	cout << "      " <<this->m_name<<"         "<<this->m_hakjum<< "        " <<this->m_grade << "        "<<this->m_GPA<<"\n";
+	cout << "-----------------------------------------------------\n";
 }
 
 void Subject::CalcGPA(string,int) {  // 평점 계산 함수
@@ -129,11 +133,145 @@ void Subject::CalcGPA(string,int) {  // 평점 계산 함수
 	else if (m_grade == "f") {
 		m_GPA = m_hakjum * 0.0;
 	}
+};
 
+string Subject::GetName() {
+	return m_name;
+}
+
+int Subject::GetHakjum() {
+	return m_hakjum;
+}
+
+string Subject::GetGrade() {
+	return m_grade;
+}
+
+float Subject::GetGPA() {
+	return m_GPA;
+}
+
+class Student {
+protected:
+	string m_name;   //학생명
+	int m_hakbun;    //학번
+	int m_subnum;    //수강한 과목 수
+	Subject* m_sub;   //수강한 과목들
+	float m_aveGPA;   //수강한 과목들의 평균 평점
+
+public:
+	void Initialize();
+	void Initialize(string, int, int, Subject*);
+	void Remove();
+	void InputValue(int&);
+	void InputValue(string&);
+	void InputData(); // 멤버변수 값 입력
+	void PrintData(); // 멤버변수 값 출력
+	void CalcAveGPA(); // 평균 평점 계산
+	string GetName();
+	int GetHakbun();
+	int GetSubNum();
+	float GetAveGPA();
 };
 
 
+void Student::Initialize() {
+	string m_name = "";
+	int m_hakbun = 0;
+	int m_subnum = 0;
+	Subject* m_sub = NULL;
+	float m_aveGPA = 0;
+}
+
+void Student::Initialize(string name, int hakbun, int subnum, Subject* sub) {
+	this->m_name = name;
+	this->m_hakbun = hakbun;
+	this->m_subnum = subnum;
+	m_sub = new Subject[subnum];
+	this->m_sub = sub;
+	CalcAveGPA();
+}
+
+void Student::Remove() {
+	delete[] m_sub;
+}
+
+void Student::InputValue(int& i) {
+	cin >> i;
+	cin.ignore();   //cin으로 입력받은 후에는 cin.ignore써서 버퍼 제거해줌
+}
+
+void Student::InputValue(string& str) {
+	getline(cin, str);  //getline을 통해 string str 입력받음
+}
+
+void Student::InputData() {     // 멤버변수 값 입력
+
+	cout << "이름을 입력하세요 : ";
+	InputValue(this->m_name);
+
+	cout << "학번을 입력하세요 : ";
+	InputValue(this->m_hakbun);
+	
+	cout << "수강한 과목수를 입력하세요 : ";
+	InputValue(this->m_subnum);
+
+	m_sub = new Subject[m_subnum];
+
+	for (int i = 0; i < this->m_subnum; i++) {
+		m_sub[i].InputData();
+	}
+
+	CalcAveGPA();
+}
+
+
+void Student::PrintData() { // 멤버변수 값 출력
+	cout << "-----------------------------------------------------\n";
+	cout << "      " <<"이름 : "<< "    " << this->m_name<< "       " <<"학번 :    "<<this->m_hakbun<<"      "<< "\n";
+	cout << "-----------------------------------------------------\n";
+
+	this->m_sub->PrintTitle();
+	for (int i = 0; i < this->m_subnum; i++) {
+		this->m_sub[i].PrintData();
+	}
+
+	
+	cout << "-----------------------------------------------------\n";
+	cout << "                          평균평점" << "     " << this->m_aveGPA;
+
+}
+
+void Student::CalcAveGPA() { // 평균 평점 계산
+
+	int totalHakjum=0;
+
+	for (int i = 0; i < m_subnum; i++) {
+		m_aveGPA += m_sub[i].GetGPA();
+		totalHakjum += m_sub[i].GetHakjum();
+	}
+	
+	this->m_aveGPA = m_aveGPA /totalHakjum;
+}
+
+string Student::GetName() {
+	return m_name;
+}
+
+int Student::GetHakbun() {
+	return m_hakbun;
+}
+
+int Student::GetSubNum() {
+	return m_subnum;
+}
+
+float Student::GetAveGPA() {
+	return m_aveGPA;
+}
 void main() {
+	cout.precision(3);
+
 	Subject sub1, sub2, sub3[2], * sub4;
 	int i;
 	sub1.Initialize();
@@ -145,24 +283,49 @@ void main() {
 	sub4 = new Subject[2];
 	sub1.InputData(); // 화면에서 입력
 	cout << "\n" << "sub1 정보" << "\n";
-	sub1.PrintTitle(); 
+	sub1.PrintTitle();
 	sub1.PrintData();
 	cout << "\n" << "sub2 정보" << "\n";
-	sub2.PrintTitle(); 
+	sub2.PrintTitle();
 	sub2.PrintData();
 	cout << "\n" << "sub3 정보" << "\n";
 	sub3[0].PrintTitle();
 
-	for (i = 0; i < 2; i++) 
+	for (i = 0; i < 2; i++)
 		sub3[i].PrintData();
 
-	for (i = 0; i < 2; i++) 
+	for (i = 0; i < 2; i++)
 		(sub4 + i)->InputData();
 
 	cout << "\n" << "sub4 정보" << "\n";
 	sub4->PrintTitle();
-	for (i = 0; i < 2; i++) 
+	for (i = 0; i < 2; i++)
 		(sub4 + i)->PrintData();
 
+	cout << "Subject Class에 멤버함수로 접근자 함수 테스트\n";
+	cout << sub1.GetName();
+	cout << "\n";
+	cout << sub2.GetHakjum();
+	cout << "\n";
+	cout << sub1.GetGrade();
+	cout << "\n";
+	cout << sub2.GetGPA();
+	cout << "\n";
+
 	delete[] sub4;
+
+
+	Subject sub[2];
+	sub[0].Initialize("컴퓨터", 3, "C");
+	sub[1].Initialize("현대무용", 2, "A");
+	Student st1, st2;
+	st1.Initialize();
+	st2.Initialize("홍길동", 2013909845, 2, sub);
+	st1.InputData();
+	cout << "\n" << "st1 정보" << "\n";
+	st1.PrintData();
+	cout << "\n" << "st2 정보" << "\n";
+	st2.PrintData();
+	st1.Remove();
+
 }
