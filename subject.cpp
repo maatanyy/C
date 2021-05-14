@@ -5,20 +5,6 @@ using namespace std;
 
 #include "subject.h"  //subject헤더파일 추가해줌
 
-void Subject::Initialize() {   //초기화 하는 함수 특별히 들어오는 인자가 없으면 아래처럼 초기화
-	m_name = "";  //이름은 ""
-	m_hakjum = 0;  //학점은 0
-	m_grade = "";   //grade는 ""
-	m_GPA = 0.0;   //GPA 는 0.0으로 
-}
-
-void Subject::Initialize(string m_name, int m_hakjum, string m_grade) {  //정보가 들어오면 그걸로 초기화 시켜줌
-	this->m_name = m_name;     //입력받은 이름을 this->m_name에 넣어줌
-	this->m_hakjum = m_hakjum;  //입력받은 학점을 this->m_hakjum에 넣어줌
-	this->m_grade = m_grade;   //입력받은 등급을 this->m_grade에 넣어줌
-	CalcGPA(this->m_grade, this->m_hakjum);   //CalcGPA함수 호출
-}
-
 void Subject::InputValue(int& i) {  //int 입력받는 함수
 	cin >> i;
 	cin.ignore();   //cin으로 입력받은 후에는 cin.ignore써서 버퍼 제거해줌
@@ -114,6 +100,19 @@ void Subject::CalcGPA(string, int) {  // 평점 계산 함수
 	}
 };
 
+void Subject::Modify() {    //Subject class 멤버변수 수정하는 함수
+
+	cout << "*< " << this->m_name << ", 학점 : " << this->m_hakjum << ", 등급 : " << this->m_grade << ">의 정보를 수정하세요\n";    //과목 정보 출력해주고
+	cout << "교과목명 : ";      
+	InputValue(this->m_name);  //이름 바꿔줌
+	cout << "과목학점 : ";
+	InputValue(this->m_hakjum);  //학점바꿔줌
+	cout << "과목등급 : ";
+	InputValue(this->m_grade);  //등급 바꿔줌
+	CalcGPA(this->m_grade, this->m_hakjum);  //CalcGPA 함수 호출
+
+}
+
 string Subject::GetName() {  //이름 리턴해주는 함수
 	return m_name;
 }
@@ -129,3 +128,33 @@ string Subject::GetGrade() {  //등급 리턴해주는 함수
 float Subject::GetGPA() {  //GPA 리턴해주는 함수
 	return m_GPA;
 }
+
+Subject::Subject() {    //Subject  default 생성자
+	cout << "Subject 생성자 호출()\n";   //생성 확인
+	m_name = "";  //이름은 ""
+	m_hakjum = 0;  //학점은 0
+	m_grade = "";   //grade는 ""
+	m_GPA = 0.0;   //GPA 는 0.0으로 
+}
+
+Subject::Subject(string name, int hakjum, string grade) {    //Subject 인자있는 생성자
+	cout << "Subject 생성자 호출(string name, int hakjum, string grade)\n";     //생성 확인
+	this->m_name = name;     //입력받은 이름을 this->m_name에 넣어줌
+	this->m_hakjum = hakjum;  //입력받은 학점을 this->m_hakjum에 넣어줌
+	this->m_grade = grade;   //입력받은 등급을 this->m_grade에 넣어줌
+	CalcGPA(this->m_grade, this->m_hakjum);   //CalcGPA함수 호출
+}
+
+Subject::Subject(const Subject& sub) { //Subject 복사 생성자
+	cout << "Subject 생성자 호출(const Subject& sub)\n";    //생성 확인
+	this->m_name = sub.m_name;     //sub.m_name 생성하는 m_name 에 넣어줌
+	this->m_hakjum = sub.m_hakjum;    //sub.m_hakjum 생성하는 m_hakjum에 넣어줌
+	this->m_grade = sub.m_grade;   //sub.m_grade 생성하는 m_grade에 넣어줌
+	CalcGPA(this->m_grade, this->m_hakjum);   //CalcGPA함수 호출
+}
+ 
+Subject::~Subject() {   //과목 소멸자
+	cout << "과목 소멸자\n";  //호출 확인
+	                 //동적할당을 하지 않아서 내용이 필요없음
+}
+

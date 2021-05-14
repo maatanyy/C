@@ -11,14 +11,19 @@ protected:   //protected (클래스 안에서만 쓸 수 있음)
 	float m_aveGPA;   //수강한 과목들의 평균 평점
 
 public:    //public형 
-	void Initialize();   //초기설정하는 함수
-	void Initialize(string, int, int, Subject*);  //주어진 정보로 초기설정하는 함수
-	void Remove();  //메모리 해제해주는 함수
-	void InputValue(int&);  //인트형 입력받는 함수
-	void InputValue(string&);  //string형 입력 받는 함수
-	void InputData(); // 멤버변수 값 입력
-	void PrintData(); // 멤버변수 값 출력
-	void CalcAveGPA(); // 평균 평점 계산
+	Student();     //Student default 생성자
+	Student(string name, int hakbun, int subnum, Subject* sub);   //Student 인자있는 생성자
+	Student(const Student& std);    //Student 복사 생성자
+	~Student();   //Student 소멸자
+
+	void InputValue(int&);    //인트형 입력받는 함수
+	void InputValue(string&);   //string형 입력 받는 함수
+	void InputData();   // 멤버변수 값 입력
+	void PrintData();   // 멤버변수 값 출력
+	void CalcAveGPA();   // 평균 평점 계산
+
+	void Modify();
+
 	string GetName();  //이름 리턴해주는 함수
 	int GetHakbun();  //학번 리턴해주는 함수
 	int GetSubNum();  //과목수 리턴해주는 함수
