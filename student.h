@@ -16,18 +16,17 @@ public:    //public형
 	Student(const Student& std);    //Student 복사 생성자
 	~Student();   //Student 소멸자
 
-	void InputValue(int&);    //인트형 입력받는 함수
-	void InputValue(string&);   //string형 입력 받는 함수
 	void InputData();   // 멤버변수 값 입력
 	void PrintData();   // 멤버변수 값 출력
 	void CalcAveGPA();   // 평균 평점 계산
+	Subject* SubSearch(string subname);  //과목 찾는 함수
 
 	void Modify();
 
-	string GetName();  //이름 리턴해주는 함수
-	int GetHakbun();  //학번 리턴해주는 함수
-	int GetSubNum();  //과목수 리턴해주는 함수
-	float GetAveGPA();   //평균학점 리턴해주는 함수
+	string GetName() const;  //이름 리턴해주는 함수
+	int GetHakbun() const;  //학번 리턴해주는 함수
+	int GetSubNum() const;  //과목수 리턴해주는 함수
+	float GetAveGPA() const;   //평균학점 리턴해주는 함수
 	friend void ShowData(const Student& s);  //friend형 ShowData 선언. 클래스 멤버가 아니어도 멤버에 접근을 할 수 있음
 };
 

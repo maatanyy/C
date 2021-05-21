@@ -15,19 +15,17 @@ public:   //public형
 	Subject(const Subject& sub);   //Subject 복사생성자
 	~Subject();   //Subject 소멸자
 
-	void InputValue(int&);   //인트형 입력하는 함수
-	void InputValue(string&);  //string형 입력하는 함수
 	void InputData();   //데이터 넣는 함수
-	void PrintTitle();  //제목 출력해주는 함수
+	static void PrintTitle();  // 제목 출력해주는 함수 static을 이용하여 공용으로 만듬
 	void PrintData();  //데이터 출력해주는 함수
 	void CalcGPA(string, int);  //GPA계산해주는 함수
 
 	void Modify();  //Subject class 멤버변수 수정하는 함수
 
-	string GetName();   //이름 리턴해주는 함수
-	int GetHakjum();  //학점 리턴해주는 함수
-	string GetGrade();  //등급 리턴해주는 함수
-	float GetGPA();   //GPA 리턴해주는 함수
+	string GetName() const;   //이름 리턴해주는 함수
+	int GetHakjum() const;  //학점 리턴해주는 함수
+	string GetGrade() const;  //등급 리턴해주는 함수
+	float GetGPA() const;   //GPA 리턴해주는 함수
 };
 
 #endif // !SUBJECT_H

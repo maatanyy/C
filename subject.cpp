@@ -4,27 +4,19 @@
 using namespace std;
 
 #include "subject.h"  //subject헤더파일 추가해줌
-
-void Subject::InputValue(int& i) {  //int 입력받는 함수
-	cin >> i;
-	cin.ignore();   //cin으로 입력받은 후에는 cin.ignore써서 버퍼 제거해줌
-}
-
-void Subject::InputValue(string& str) {  //string 입력 받는 함수
-	getline(cin, str);  //getline을 통해 string str 입력받음
-}
+#include "InputUtil.h"
 
 void Subject::InputData() {  //InputData 함수
 
 	cout << "수강한 과목의 각 교과목명, 과목학점, 과목등급을 입력하세요.\n";
 
 	cout << "교과목명 : ";
-	InputValue(this->m_name);     //교과목명 받음
+	InputUtil::InputValue(this->m_name);     //교과목명 받음
 	cout << "과목학점수(숫자) : ";
-	InputValue(this->m_hakjum);   //과목 학점수 받음
+	InputUtil::InputValue(this->m_hakjum);   //과목 학점수 받음
 
 	cout << "과목등급<A+ ~ F> : ";
-	InputValue(this->m_grade);    //과목 등급 받음
+	InputUtil::InputValue(this->m_grade);    //과목 등급 받음
 	cout << '\n';
 
 	CalcGPA(this->m_grade, this->m_hakjum);  //CalcGPA 함수 호출
@@ -104,33 +96,33 @@ void Subject::Modify() {    //Subject class 멤버변수 수정하는 함수
 
 	cout << "*< " << this->m_name << ", 학점 : " << this->m_hakjum << ", 등급 : " << this->m_grade << ">의 정보를 수정하세요\n";    //과목 정보 출력해주고
 	cout << "교과목명 : ";      
-	InputValue(this->m_name);  //이름 바꿔줌
+	InputUtil::InputValue(this->m_name);   //이름 바꿔줌
 	cout << "과목학점 : ";
-	InputValue(this->m_hakjum);  //학점바꿔줌
+	InputUtil::InputValue(this->m_hakjum);  //학점바꿔줌
 	cout << "과목등급 : ";
-	InputValue(this->m_grade);  //등급 바꿔줌
+	InputUtil::InputValue(this->m_grade);  //등급 바꿔줌
 	CalcGPA(this->m_grade, this->m_hakjum);  //CalcGPA 함수 호출
 
 }
 
-string Subject::GetName() {  //이름 리턴해주는 함수
+string Subject::GetName() const {  //이름 리턴해주는 함수, const형 값 수정 x
 	return m_name;
 }
 
-int Subject::GetHakjum() {  //학점 리턴해주는 함수
+int Subject::GetHakjum() const {  //학점 리턴해주는 함수, const형 값 수정 x
 	return m_hakjum;
 }
 
-string Subject::GetGrade() {  //등급 리턴해주는 함수
+string Subject::GetGrade() const {  //등급 리턴해주는 함수, const형 값 수정 x 
 	return m_grade;
 }
 
-float Subject::GetGPA() {  //GPA 리턴해주는 함수
+float Subject::GetGPA() const {  //GPA 리턴해주는 함수, const형 값 수정 x
 	return m_GPA;
 }
 
 Subject::Subject() {    //Subject  default 생성자
-	cout << "Subject 생성자 호출()\n";   //생성 확인
+	//cout << "Subject 생성자 호출()\n";   //생성 확인
 	m_name = "";  //이름은 ""
 	m_hakjum = 0;  //학점은 0
 	m_grade = "";   //grade는 ""
@@ -138,7 +130,7 @@ Subject::Subject() {    //Subject  default 생성자
 }
 
 Subject::Subject(string name, int hakjum, string grade) {    //Subject 인자있는 생성자
-	cout << "Subject 생성자 호출(string name, int hakjum, string grade)\n";     //생성 확인
+	//cout << "Subject 생성자 호출(string name, int hakjum, string grade)\n";     //생성 확인
 	this->m_name = name;     //입력받은 이름을 this->m_name에 넣어줌
 	this->m_hakjum = hakjum;  //입력받은 학점을 this->m_hakjum에 넣어줌
 	this->m_grade = grade;   //입력받은 등급을 this->m_grade에 넣어줌
@@ -146,7 +138,7 @@ Subject::Subject(string name, int hakjum, string grade) {    //Subject 인자있는 
 }
 
 Subject::Subject(const Subject& sub) { //Subject 복사 생성자
-	cout << "Subject 생성자 호출(const Subject& sub)\n";    //생성 확인
+	//cout << "Subject 생성자 호출(const Subject& sub)\n";    //생성 확인
 	this->m_name = sub.m_name;     //sub.m_name 생성하는 m_name 에 넣어줌
 	this->m_hakjum = sub.m_hakjum;    //sub.m_hakjum 생성하는 m_hakjum에 넣어줌
 	this->m_grade = sub.m_grade;   //sub.m_grade 생성하는 m_grade에 넣어줌
