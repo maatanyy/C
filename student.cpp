@@ -81,20 +81,29 @@ void Student::Modify() {
 	}
 
 	else if (Type == "과목정보") {
-		for (int i = 0; i < this->m_subnum; i++) {
-		     m_sub[i].Modify();
-		}
-		CalcAveGPA();
+		string searchname = "0";  //찾을려고 하는 과목 이름 담을 변수 선언
+		Subject* findsub = NULL;  //찾는 과목 위치 저장할 포인터 선언
+
+		cout << "찾으시는 과목을 입력해주세요. : ";   //과목 입력 받음
+		InputUtil::InputValue(searchname);  //입력
+		findsub = SubSearch(searchname);  //findsub에 찾는 과목 위치가 들어 간다
+		if (findsub) {  //만약 찾는 과목이 있다면
+			findsub->Modify();  //subject class의 modify를 이용하여 값 수정
+		}		
+		CalcAveGPA();  //새로운 평점 다시 계산
 	}
 
-	else if (Type == "모두") {
+	else if (Type == "모두") {  // 모두 입력시 학생의 이름, 학번, 모든 교과목에 대한 교과목명, 학점, 등급 모두 수정
 		cout << "*<" << this->m_name << ", " << this->m_hakbun << ">의 정보를 수정하세요\n";
 		cout << "이름 : ";
 		InputUtil::InputValue(this->m_name);  //이름바꿔줌
 		cout << "학번 : ";
 		InputUtil::InputValue(this->m_hakbun);  //학번바꿔줌
-		this->m_sub->Modify();
-		CalcAveGPA();  //평균평점 계산
+
+		for (int i = 0; i < m_subnum; i++) {  //전체 과목수 만큼 반복하며
+			m_sub[i].Modify();          //과목에 대한 정보 수정
+		}
+		CalcAveGPA();  //수정된	평균평점 계산
 	}
 
 	else {
@@ -120,7 +129,7 @@ float Student::GetAveGPA() const{  //평균 GPA 리턴해주는 함수, const형 값 수정 x
 }
 
 Student::Student() {  //student default 생성자
-	//cout << "Student() 호출\n";   //호출 확인
+	cout << "Student의 디폴트 생성자 호출됨\n";   //호출 확인
 	m_name = "";  //이름을 null로 초기화
 	m_hakbun = 0;  //학번은 0으로 초기화
 	m_subnum = 0;   //과목수 0으로 초기화
@@ -128,12 +137,13 @@ Student::Student() {  //student default 생성자
 	m_aveGPA = 0;  //평균평점 0으로 초기화
 }
 
-Student::Student(string name, int hakbun, int subnum, Subject* sub) {  //student 인자있는 생성자
-	//cout << "Student 생성자 호출(string name, int hakbun, int subnum, Subject* sub)\n";  //호출 확인
+Student::Student(string name, int hakbun, int subnum, Subject* sub) :IOInterface(name) {  //student 인자있는 생성자
+	cout << "Student의 인자있는 생성자 호출됨\n"; 
 	m_name = name;    //입력받은 이름이 이름이 되도록 함
 	m_hakbun = hakbun;  //입력받은 학번이 학번이 되도록 함
 	m_subnum = subnum;  //입력받은 과목수가 과목수가 되도록 함
 	m_sub = new Subject[subnum];  //과목을 과목수만큼 동적할당해줌
+	m_data = 300;
 	for (int i = 0; i < m_subnum; i++) {
 		m_sub[i] = sub[i];   //과목 옮김
 	}
@@ -154,7 +164,7 @@ Student::Student(const Student& std) {   //Student 복사 생성자
 
 Student::~Student() {  //Student 소멸자
 	if (m_sub) {  //만약 과목이 있따면(동적할당 받음)
-		cout << "Student 소멸자\n";
+		cout << "Student의 소멸자 호출됨.\n";
 		delete[] m_sub;   //메모리 해제
 	} 
 }

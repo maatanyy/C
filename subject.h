@@ -1,7 +1,7 @@
 #ifndef SUBJECT_H   //헤더의 중복을 막기 위해 씀
 #define SUBJECT_H
-
-class Subject {  //Subject 클래스
+#include "IOInterface.h"
+class Subject : public IOInterface {  //Subject 클래스
 
 protected:    //protected (클래스 안에서만 쓸 수 있음)
 	string m_name;   // 과목이름 string형 사용

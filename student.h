@@ -1,8 +1,9 @@
 #ifndef STUDENT_H  //헤더의 중복을 막기 위해 씀
 #define STUDENT_H
 #include "subject.h"  //subject 헤더 파일 추가해줌, subject헤더 파일에 있는 내용을 쓰기 때문
+#include "IOInterface.h"
+class Student : public IOInterface {  //Student 클래스 
 
-class Student {  //Student 클래스 
 protected:   //protected (클래스 안에서만 쓸 수 있음)
 	string m_name;   //학생명
 	int m_hakbun;    //학번

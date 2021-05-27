@@ -1,19 +1,21 @@
 /**************************************************/
-/*             HW#9 : 객체지향방식의 성적처리프로그램#3 작성  */
-/*  작성자 : 노민성   날짜 : 2021년 5월 20일              */
+/*             HW#11 : 객체지향방식의 성적처리프로그램#4 작성  */
+/*  작성자 : 노민성   날짜 : 2021년 5월 28일              */
 /*                                                       */
 /* 문제 정의 :
-#10-1. Student Class에 SubSearch() 멤버함수 추가 : 과목탐색
-#10-2. Subject Class와 Student Class에 정적멤버함수, const 멤버함수 작성
-#10-3. InputUtil Class 작성 : 데이터를 입력을 위한 새로운 Class
-#10-4. Subject Class와 Student Class를 사용한 여러가지 객체 생성
+#11-1. 기본클래스 작성 : IOInterface Class 작성
+#11-2. 파생클래스 작성
+? IOInterface Class를 상속받는 Subject 및 Student Class 작성 후 테스트
+#11-3. 기본클래스와 파생클래스의 관계
+? 인자있는 생성자, 멤버 : 상속된 멤버, 추가된 멤버, 재정의된 멤버함수
+#11-4. Student Class의 Modify() 함수 변경
+? 과목정보를 변경할 때 수정하고자 하는 과목을 검색한 후, 검색된 과목만 수정할 수 있도록 변경
 
-학생이 듣는 과목 중에 찾으려는 과목과 일치하는 함수를 Student Class에 구현하였습니다.
-PrintTitle을 static으로 구현하여 클래스에서 공통적으로 사용할 수 있게 하였습니다.
-기존에 InputValue를 :InputUtil.h에 구현하였고 다른 형식도 추가하였습니다.
-Subject Class와 Student Class를 사용한 여러가지 객체를 생성한 걸 오류가 있나 실행했습니다.
-
-기존의 과제에서 만든 생성자,소멸자 실행시 출력해주는 부분은 생성자부분은 주석 처리했습니다. (출력 결과 확인시 너무 복잡해서)
+IOInterface class 작성. 
+Subject 및 Student class 는 IOInterface Class를 상속받습니다.
+IOInterface Class의 default 생성자를 추가하였습니다(1번 문제 오류해결을 위해서)
+그리고 m_data의 값 때문에 student,subject 클래스의 생성자 부분에 m_data를 추가하였습니다.
+Modify부분을 수정하였고 예시는 과목이 하나이길래 과목이 여러개인 경우도 테스트해봤습니다.
 그리고 강의자료의 Test를 Main함수에 구현하여 오류가 없나 확인하였습니다*/
 /*************************************************/
 
@@ -26,6 +28,7 @@ using namespace std;
 #include "student.h"      //student 헤더파일 추가  
 #include "subject.h"      //subject 헤더파일 추가
 #include "InputUtil.h"
+#include "IOInterface.h"
 
 void ShowData(const Student&);   //ShowData함수 선언
 
@@ -37,55 +40,38 @@ void Data(const Student& s) { // 응용프로그램에 있는 전역함수
 void main() {
 	cout.precision(3);   //깔끔하게 출력하기 위해 사용
 
-	//Subject* Student::SubSearch() 멤버함수 테스트
-	 
-	//Student std;    
-	//std.InputData();
+	//Student std;
+	//cout << std.GetData() << "\n";   //IOInterface 에서 사용할 수 있는 적절한 기본 생성자가 없어서 오류 남
+
+	/*Subject sub("컴퓨터", 3, "C");
+	cout << "-----------------------------\n";
+	cout << "m_data : " << sub.GetData()<<"\n";
+	cout << "교과목 이름 : "<< sub.Subject::GetName() << "\n";
+	cout << "부모클래스의 이름 : " << sub.IOInterface::GetName() << "\n";	
+	cout << "-----------------------------\n\n";
+
+	Student std("홍길동", 2013909845, 1, &sub);
+	cout << "-----------------------------\n";
+	cout << "m_data : " << std.GetData() << "\n";
+	cout << "학생 이름 : " << std.Student::GetName() << "\n";
+	cout << "부모클래스의 이름 : " << std.IOInterface::GetName() << "\n";
+	cout << "-----------------------------\n\n";*/
+
+	
+	//11-4 과목 여러개일때 테스트
+	// 
+	//Subject sub1[2] = { Subject("컴퓨터", 3, "C"), Subject("현대무용", 2, "A") };
+	//Student std("홍길동", 20138342, 2, sub1);
 	//std.PrintData();
-	//Subject* sub = std.SubSearch("사진학");
-	//// 과목명이 성공적으로 탐색된 경우
-	//// 해당 과목정보가 있는 메모리 주소를 리턴
-	//if (sub != NULL) {
-	//	sub->PrintTitle();
-	//	sub->PrintData();
-	//}
+	//std.Modify(); // Student Class의 멤버변수 값 수정
+	//std.PrintData();
 
-	//Subject sub1("컴퓨터", 3, "C");    //sub1 주어진 정보로 선언
-	//Subject sub2("계산기", 2, "A");    //sub2 주어진 정보로 선언
-	//Subject::PrintTitle();             //Subject::PrintTitle 함수 호출
-	//sub1.PrintData();                  //sub1정보 출력
-	//sub2.PrintData();                   //sub2정보 출력 
-	//Student st1("홍길동", 2013909845, 1, &sub1);     //st1 주어진 정보로 선언
-	//st1.PrintData();                           //st1 정보 출력
-	//Data(st1);                  
+	Subject sub("컴퓨터", 3,"C");   //과목 정보
+	Student std("홍길동", 20138342, 1,&sub);   //학생 선언
+	std.PrintData();   //학생정보 출력
+	std.Modify();   // Student Class의 멤버변수 값 수정
+	std.PrintData();   //std정보 출력
 
-	Subject sub1[2] = { Subject("컴퓨터", 3, "C"), Subject("현대무용", 2, "A") };      // Subject배열로 과목 2개 sub1에 선언
-	Subject* sub2[2] = { new Subject(), new Subject("수학", 3, "C") };                // Subject형 포인터로 과목 2개 sub2[2]에 선언
-	Student st1;                                    // 학생 st1 선언
-	Student st2("홍길동", 2013909845, 2, sub1);         // st를 해당 정보로 초기화해서 선언
-	Student* st3 = new Student[2];             // Student형 포인터 st3을 동적할당
-	cout << "\n" << "sub2[0] 입력" << "\n";      
-		sub2[0]->InputData();              //sub2[0] 입력받음
-	cout << "\n" << "st1 입력" << "\n";
-	st1.InputData();                   //st1 입력 받음
-	cout << "\n" << "st3 입력" << "\n";
-	for (int i = 0; i < 2; i++)             //반복문을 수행하며 학생들 정보 입력 받음
-		(st3 + i)->InputData();    
-	cout << "\n" << "sub1 정보 출력" << "\n";
-	Subject::PrintTitle(); 
-	for (int i = 0; i < 2; i++)          //반복문을 수행하며 과목 정보 출력
-		sub1[i].PrintData();
-	cout << "\n" << "sub2 정보 출력" << "\n";
-	Subject::PrintTitle(); 
-	for (int i = 0; i < 2; i++)          //반복문을 수행하며 정보 출력
-		sub2[i]->PrintData();       
-	cout << "\n" << "st1 정보 출력" << "\n";
-	st1.PrintData();                             //st1 정보 출력
-	cout << "\n" << "st2 정보 출력" << "\n";
-	st2.PrintData();                           //st2 정보 출력
-	cout << "\n" << "st3 정보 출력" << "\n";
-	for (int i = 0; i < 2; i++)             //반복문을 수행하며 학생정보 출력
-		(st3 + i)->PrintData();
 }
 
 //void ShowData(const Student& s) {  //ShowData 함수 

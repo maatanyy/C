@@ -106,7 +106,7 @@ void Subject::Modify() {    //Subject class 멤버변수 수정하는 함수
 }
 
 string Subject::GetName() const {  //이름 리턴해주는 함수, const형 값 수정 x
-	return m_name;
+	return IOInterface::m_name;
 }
 
 int Subject::GetHakjum() const {  //학점 리턴해주는 함수, const형 값 수정 x
@@ -122,23 +122,24 @@ float Subject::GetGPA() const {  //GPA 리턴해주는 함수, const형 값 수정 x
 }
 
 Subject::Subject() {    //Subject  default 생성자
-	//cout << "Subject 생성자 호출()\n";   //생성 확인
+	cout << "Subject의 디폴트 생성자 호출됨.\n";   //생성 확인
 	m_name = "";  //이름은 ""
 	m_hakjum = 0;  //학점은 0
 	m_grade = "";   //grade는 ""
 	m_GPA = 0.0;   //GPA 는 0.0으로 
 }
 
-Subject::Subject(string name, int hakjum, string grade) {    //Subject 인자있는 생성자
-	//cout << "Subject 생성자 호출(string name, int hakjum, string grade)\n";     //생성 확인
+Subject::Subject(string name, int hakjum, string grade):IOInterface(name) {    //Subject 인자있는 생성자
+	cout << "Subject의 인자있는 생성자 호출됨.\n";     //생성 확인
 	this->m_name = name;     //입력받은 이름을 this->m_name에 넣어줌
 	this->m_hakjum = hakjum;  //입력받은 학점을 this->m_hakjum에 넣어줌
 	this->m_grade = grade;   //입력받은 등급을 this->m_grade에 넣어줌
+	m_data = 100;
 	CalcGPA(this->m_grade, this->m_hakjum);   //CalcGPA함수 호출
 }
 
 Subject::Subject(const Subject& sub) { //Subject 복사 생성자
-	//cout << "Subject 생성자 호출(const Subject& sub)\n";    //생성 확인
+	cout << "Subject의 디폴트 생성자 호출됨.\n";    //생성 확인
 	this->m_name = sub.m_name;     //sub.m_name 생성하는 m_name 에 넣어줌
 	this->m_hakjum = sub.m_hakjum;    //sub.m_hakjum 생성하는 m_hakjum에 넣어줌
 	this->m_grade = sub.m_grade;   //sub.m_grade 생성하는 m_grade에 넣어줌
@@ -146,7 +147,7 @@ Subject::Subject(const Subject& sub) { //Subject 복사 생성자
 }
  
 Subject::~Subject() {   //과목 소멸자
-	cout << "과목 소멸자\n";  //호출 확인
+	cout << "Subject의 소멸자 호출됨.\n";  //호출 확인
 	                 //동적할당을 하지 않아서 내용이 필요없음
 }
 
